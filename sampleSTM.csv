@@ -1,0 +1,11 @@
+Source ,Transformation,Target 
+trans_type,case when trans_type = 'Fraud' then 'Fraud' else 'Good transaction',trans_type1
+amount,case when amount > 500 then 'High' else 'Low',amount1
+account_type,case when account_type == 'Savings' then 'Saving' else 'Checking',account_type1
+currency,case when currency == 'USD' then 'Dollars' else 'Euros',currency1
+time,case when time > '12:00PM' then 'Afternoon' else 'Morning',time1
+merchant,case when merchant == 'Amazon' then 'Online' else 'Offline',merchant1
+status,case when status == 'Pending' then 'In Progress' else 'Completed',status1
+description,case when description == 'Payment' then 'Expense' else 'Income',description1
+balance,case when balance > 1000 then 'Sufficient' else 'Low',balance1
+category,case when category == 'Food' then 'Groceries' else 'Other',category1
