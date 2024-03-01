@@ -1,0 +1,406 @@
+﻿Source,Transformation,Target
+load_date,Straight move,MSRMNT_PRD_DT
+rec_num,"For SIG
+concat('SIG', '-', CAST(A.DATE_REF AS STRING), '-', cast(rec_num as string)) AS TRANSACTION_ID_MASTER
+
+For PIN
+concat('PIN', '-', CAST(b.DATE_REF AS STRING), '-', cast(b.rec_num as string)) AS TRANSACTION_ID_MASTER ",SRC_SYST _TRANS_ID
+ZDAF_CRDHOLDER_NUM_16,Straight move,CRD_NUM
+ZDAF_TRAN_CODE,Straight move,SRC_SYST_TRANS_CODE
+"Trans_date_time,zdaf_date_yymmdd,zdaf_time_stamp_hhmmss","from_unixtime(unix_timestamp(concat('20',cast(zdaf_date_yymmdd as string),' ',lpad(cast(zdaf_time_stamp_hhmmss as string),6,'0')), 'yyyyMMdd HHmmss'))  as Trans_date_time",TRANS_DT
+post_file_date_placed,Straight move,TRANS_POST_DT
+ZDAF_AMOUNT,Straightmove,TRANS_AMT
+zdaf_mrch_curr_code,Straightmove,TRANS_DNMNTN_CRNCY_TYPE_CODE
+zdaf_ic_cncy_cd,Straightmove,EXCHNG_RATE
+ZFFSL_TRAN_TYPE,unmapped,TRANS_DSC
+zdaf_trans_merch_num,Straight move,TRANS_MRCH_NUM
+zdaf_merch_name,TRIM( zdaf_merch_name) AS zdaf_merch_name,TRANS_MRCH_NM
+zdaf_merch_zip_code,Straight move,TRANS_MRCH_PSTL_CODE
+ZFFSL_MRCH_ST_CD,,TRANS_MRCH_STATE_NAME
+zdaf_zip_country,,TRANS_MRCH_CNTRY_CODE
+zdaf_merch_city,Straight move,TRANS_MRCH_CITY_NAME
+"PCS_BANK_ID
+PCS_CARD_NO","CASE 
+            WHEN substr(lpad(cast(PCS_BANK_ID as string),6,'0'),1,1) in ('4') THEN 
+            concat(lpad(cast(PCS_BANK_ID as string),6,'0'),lpad(cast(PCS_CARD_NO as string),10,'0')) 
+            ELSE  
+            concat(lpad(cast(PCS_BANK_ID as string),6,'0'),lpad(cast(PCS_CARD_NO as string),12,'0'))
+        END AS card_number_pcs",RLTD_ACCT_ID
+"
+
+ZDAF_CASHBACK_AMOUNT",Straightmove,TRANS_CASK_BACK_AMT
+zdaf_tran_code,Straight move,SRC_SYST_TRANS_RSPNS_CODE
+zdaf_mssg_rsn_cd,Straight move,TRANS_MSG_TYP_CODE
+ZDAF_MERCH_CAT,Straight move,MRCH_IND_CLSFCN_CODE
+zdaf_pos_entry_mode,Straight move,POS_ENTRY_CODE
+ZDAF_FRAUD_SCORE,Straight move,TRANS_ FRD_PROB _SCR
+zdaf_cvv_verification,Straight move,CVV_VRFCN_RSLT_CODE
+zdaf_fraud_strategy,Straight move,FRD_STRTGY_SEG_CODE
+zdaf_auth_num,Straight move,TRANS_AUTH_NUM
+zffsl_extn_srvc_cd,Straight move,CRD_EXTND_SRVC_CODE
+zffsl_tokn_rqst_id,Straightmove,TRANS_TKN_RQSTR_ID
+zdaf_vaa_risk_scor_nr,Straightmove,VAA_ADV_AUTH_RISK_SCR
+ZDAF_PIN_VERIFY,Straightmove,PIN_VRFCN_TYPE_CODE
+ZDAF_MOTO_IND,"case when zdaf_moto_ind in ('5', '6') then '3DSelse 'NOT 3DS' ",TRANS_INTN_TYPE_CODE
+ZDAF_ECOM_CD,Straightmove,TRANS_ECOM_CODE
+smw4_tran_date,Straightmove,SEC_MSTR_ACTVTY_DT
+zdaf_av_rspn_cd,Straightmove,ADDR_VRFCN_RESP_CODE
+zdaf_cvv2_prsn_id,Straight move,TRANS_CVV_PRCSG_CODE
+latitude,look up on geo table based on bdhhd01p_etl_stage.fdr_fraud_falcon_debit.zffsl_merch_zip and load data,MRCH_ADDR_LATITUDE
+longitude,look up on geo table based on bdhhd01p_etl_stage.fdr_fraud_falcon_debit.zffsl_merch_zip and load data,MRCH_ADDR_LONGITUDE
+zdaf_tran_code,straightmove,SRC_SYST_AUTH_TRANS_CODE
+,"Concatenate
+zdaf_date_yymmdd,
+zdaf_time_entered_hhmmss",SRC_SYST_AUTH_TRANS_DT
+ZFFSL_PREV_AUTH_AM,Straightmove,FALCON_TRANS_AUTH_AMT
+zffsl_24_hour_ct,Straightmove,24_HR_TRANS_CNT
+"	
+zffsl_24_hour_entr_mode_ct",Straightmove,24_HR_ENTRY_MD_TRANS_CNT
+zffsl_24_hour_mrch_ctgr_ct,Straightmove,24_HR_MRCH_CTGY_TRANS_CNT
+zffsl_24_hour_mrch_ctgr_am,Straightmove,24_HR_MRCH_CTGY_TRANS_AMT
+zffsl_auth_region_id,Straight move,AUTH_RGN_ID
+zffsl_critical_non_mon,Straightmove,FRD_DETCTN_NON_MONTRY_TRANS_PRMTD_CODE
+zffsl_cvv_cvc_outcome,Straightmove,CVV_VLDN_OUTPUT_CODE
+zffsl_cvv2_cvc2_otcm_cd,Straightmove,CVV2_VLDN_OUTPUT_CODE
+zffsl_elct_cmmr_otcm_cd,Straightmove,ECOM_VLDN_RSLT_CODE
+zffsl_ent_exp_date,Straightmove,AUTH_EXPRN_DT
+zffsl_entry_mode_ind,Straightmove,AUTH_ENTRY_TYP_CODE
+zffsl_inp_srce_addl_ind,Straightmove,AUTH_ENTRY_SRC_TYP_CODE
+zffsl_prev_auth_am,Straightmove,PREV_AUTH_AMT
+zffsl_region_ind,Straightmove,AUTH_RGN_TYP_CODE
+zffsl_reiss_control_flag,Straightmove,CRD_REISS_CNTRL_TYPE_CODE
+zffsl_pi_frad_stgy_id,Straightmove,FRD_STRTGY_ID
+zffsl_auth_flag,Straightmove,AUTH_SPL_ACTION_TYP_CODE
+zffsl_label_type,Straightmove,CRD_LBL_TYP_CODE
+zffsl_local_term_ind,Straightmove,FISERV_TMNL_IND
+zffsl_frad_oprt_cd,Straightmove,FALCON_OUTAGE_CODE
+zffsl_frad_accs_rtrn_cd,Straightmove,FALCON_RTRN_CODE
+zffsl_trns_data_que_flag,Straightmove,TRNSNT_DATA_QUEUE_FLG
+zffsl_acqr_ntwk_id,Straightmove,TRANS_AUTH_NTWRK_ID
+zffsl_acqr_prcs_id,Straightmove,TRANS_AUTH_ACQRING_PRCSSR_ID
+zffsl_arqc_rslt_cd,Straightmove,ARQC_VLDN_RSLT_CODE
+zffsl_chd_vrfc_mthd_1_cd,Straightmove,CRDHLDR_VRFCN_MTHD_TYPE_CODE
+zffsl_chip_data_avlb_cd,"if 1, then 1, if 9 then 2",EMV_CHIP_DATA_PRSNT_FLG
+zffsl_days_plastic,Straightmove,CURR_PLSTC_ISS_DT_TO_TRANS_DT_DAYS_DIFF
+zffsl_days_snce_lst_mbl_adt_ct,Straightmove,LST_MBL_ADD_DT_TO_TRANS_DT_DAYS_DIFF
+zffsl_exp_date_match_flag,Straightmove,EXPRN_DT_MTCH_RSLT_TYP_CODE
+zffsl_flcn_pin_usag_cd,Straightmove,FALCON_PIN_USAGE_RSLT_TYP_CODE
+zffsl_frad_bhvr_cd,Straightmove,FRD_BHVR_CODE
+zffsl_frad_card_prsn_cd,Straightmove,CRDHLDR_PRESENCE_CTGZN_TYP_CODE
+zffsl_card_in_use_2,Straightmove,FALCON_AUTH_REQ_CRD_ST_TYPE_CODE
+zffsl_keyed_swiped_ind,Straightmove,CRD_ENTRY_TYP_CODE
+zffsl_mrch_card_type_cd,Straightmove,MRCH_ACCT_CRD_TYP_CODE
+zffsl_mrch_vrfc_valu_id,Straightmove,SLCT_MRCH_FEE_PGM_MRCH_ID
+zffsl_new_fraud_score,Straightmove,TRANS_CURR_FRD_SCR
+zffsl_old_fraud_score,Straightmove,TRANS_ORGNL_FRD_SCR
+zffsl_pi_type_cd,Straightmove,TRANS_INSMNT_TYP_CODE
+zffsl_pin_tran_cd,"Straightmove,SELECT a.zffsl_pin_tran_cd from bdhhd01p_etl_stage.FDR_FRAUD_FALCON_DEBIT as a JOIN  bdhhd01p_etl_stage.fdr_auth_debit_dly as b ON b.zdaf_crdholder_num_16 = a.zffsl_account_number",PIN_TRANS_IND
+zffsl_portfolio_id,Straightmove,FRD_PRTFOL_ID
+zffsl_prev_entr_mode_cd,Straightmove,PREV_TRANS_ENTRY_TYP_CODE
+zffsl_prev_mrch_id,Straightmove,PREV_TRANS_MRCH_NUM
+zffsl_prev_mrch_nm,Straightmove,PREV_TRANS_MRCH_NM
+zffsl_s3d_prtc_vrsn_cd,Straightmove,3DS_PRTCL_VER_CODE
+zffsl_score_type,Straightmove,TRANS_FRD_SCR_TYPE_CODE
+zffsl_spcl_cndt_in,Straightmove,VISA_SPL_PYMNT_TYP_CODE
+zffsl_sspn_stgy_nbr_day,Straightmove,ACCT_SUSPND_STRTGY_DAY_CNT
+zffsl_star_frd_scor,Straightmove,TRANS_CURR_STAR_FRD_SCR
+zffsl_star_frd_resn_cd,Straightmove,TRANS_CURR_STAR_FRD_SCR_RSN_CODE
+zffsl_thre_dmns_secr_in,Straightmove,3DS_AUTHCTN_MTHD_TYPE_CODE
+zffsl_tokn_rqst_id,"Derivation 1
+A.ZFFSL_TOKN_RQST_ID AS TOKEN_ID,
+
+Derivation 2
+, CASE WHEN TOKEN_ID = '99999999999' THEN 0
+       WHEN ORIGIN_MASTER = 'PIN TAB' THEN 0
+       WHEN TOKEN_ID is null THEN 0
+       ELSE 1
+     END AS TOKEN_ID_2
+Derivation 3
+TOKEN_ID_2 as TOKEN_ID",TOKN_REQ_ID
+zffsl_trmn_cpbl_cd,Straightmove,TRANS_TMNL_CAPBLTY_TYP_CODE
+zffsl_vaa_cndt_1_cd,Straightmove,VAA_FRST_RSK_CONDC_CODE
+zffsl_vaa_cndt_2_cd,Straightmove,VAA_SCND_RSK_COND_CODE
+zffsl_auth_bal_vlct_am,Straightmove,AUTH_BAL_VLCTY_AMT
+zffsl_mobl_zip_dist_ct,Straightmove,CRD_HLDR_TRVL_DISTANCE
+zffsl_frad_prvs_cat_cd,Straightmove,PRVS_TRANS_MRCH_IND_CLSFCN_CODE
+zffsl_frad_prvs_mrch_cntr_cd,Straightmove,PRVS_TRANS_MRCH_CNTRY_CODE
+zffsl_frad_prvs_regn_risk_cd,Straightmove,PRVS_TRANS_RGN_RSK_CODE
+zffsl_frst_3_digt_zip_dffr_nr,Straightmove,MRCH_ZIP_CD_DIFF
+zffsl_last_auth_tm,Straightmove,AUTH_TM_DIFF
+zffsl_luk_elps_live_tm,Straightmove,LMTD_USE_KEY_ELPSD_TM
+zffsl_luk_tran_am,Straightmove,LMTD_USE_KEY_TOT_TRANS_AMT
+zffsl_luk_tran_ct,Straightmove,LMTD_USE_KEY_TOT_TRANS_CNT
+zffsl_pi_chip_use_ct,Straightmove,APPLCN_TRANS_CNTR_CHIP_USE_CNT
+zffsl_pi_host_use_ct,Straightmove,APPLCN_TRANS_CNTR_TOT_USE_CNT
+zffsl_tran_type,Straightmove,MRCH_CTGRY_FRD_PTNTL_CODE
+ZFFSL_PSTL_CODE_DIST_CT,Straightmove,MRCH_ZIP_CD_TRVL_DISTANCE
+zffsl_pi_days_ress_ct,Straightmove,CRD_REISS_DAYS_TO_AUTH_DT_DAYS_DIFF
+"zffsl_pi_days_mald_ct
+",Straightmove,CRD_MAILED_DAYS_TO_AUTH_DT_DAYS_DIFF
+zffsl_mobl_zip_dist_ct,Straightmove,MBL_TRANS_ZIP_CD_TRVL_DIFF
+zffsl_mobl_mnts_sinc_ct,Straightmove,MBL_TRANS_TM_DIFF
+ZFFSL_ECOM_IN,Straightmove,ECOM_VLDN_RSLT_CODE
+zffsl_de_otcm_cd,"case 0 then A,case 1 or 2 then  D,default is space",DFNSE_EDGE_TRANS_DECSN_TYP_CODE
+" zffsl_addtl_action_cd_1
+ zffsl_addtl_action_cd_2
+ zffsl_addtl_action_cd_3
+ zffsl_addtl_action_cd_4
+ zffsl_addtl_action_cd_5
+ zffsl_addtl_action_cd_6
+ zffsl_addtl_action_cd_7
+ zffsl_addtl_action_cd_8
+ zffsl_addtl_action_cd_9
+ zffsl_addtl_action_cd_10
+ zffsl_addtl_action_cd_11
+ zffsl_addtl_action_cd_12
+ zffsl_addtl_action_cd_13
+ zffsl_addtl_action_cd_14
+ zffsl_addtl_action_cd_15
+ zffsl_addtl_action_cd_16
+ zffsl_addtl_action_cd_17
+ zffsl_addtl_action_cd_18
+ zffsl_addtl_action_cd_19
+ zffsl_addtl_action_cd_20","case
+   when ZFFSL_ADDTL_ACTION_CD_1  <> 0 or ZFFSL_ADDTL_ACTION_CD_2  <> 0 or ZFFSL_ADDTL_ACTION_CD_3  <> 0 or
+        ZFFSL_ADDTL_ACTION_CD_4  <> 0 or ZFFSL_ADDTL_ACTION_CD_5  <> 0 or ZFFSL_ADDTL_ACTION_CD_6  <> 0 or
+        ZFFSL_ADDTL_ACTION_CD_7  <> 0 or ZFFSL_ADDTL_ACTION_CD_8  <> 0 or ZFFSL_ADDTL_ACTION_CD_9  <> 0 or
+        ZFFSL_ADDTL_ACTION_CD_10 <> 0 or ZFFSL_ADDTL_ACTION_CD_11 <> 0 or ZFFSL_ADDTL_ACTION_CD_12 <> 0 or
+        ZFFSL_ADDTL_ACTION_CD_13 <> 0 or ZFFSL_ADDTL_ACTION_CD_14 <> 0 or ZFFSL_ADDTL_ACTION_CD_15 <> 0 or
+        ZFFSL_ADDTL_ACTION_CD_16 <> 0 or ZFFSL_ADDTL_ACTION_CD_17 <> 0 or ZFFSL_ADDTL_ACTION_CD_18 <> 0 or
+        ZFFSL_ADDTL_ACTION_CD_19 <> 0 or ZFFSL_ADDTL_ACTION_CD_20 <> 0
+    then 1
+    else 0
+    end  frd_actn_ind",FRD_ACTN_IND
+NA,"""case 
+   when                                  ZFFSL_ADDTL_ACTION_CD_2  <> 0 or ZFFSL_ADDTL_ACTION_CD_3  <> 0 or
+        ZFFSL_ADDTL_ACTION_CD_4  <> 0 or ZFFSL_ADDTL_ACTION_CD_5  <> 0 or ZFFSL_ADDTL_ACTION_CD_6  <> 0 or
+        ZFFSL_ADDTL_ACTION_CD_7  <> 0 or ZFFSL_ADDTL_ACTION_CD_8  <> 0 or ZFFSL_ADDTL_ACTION_CD_9  <> 0 or
+                                         ZFFSL_ADDTL_ACTION_CD_11 <> 0 or ZFFSL_ADDTL_ACTION_CD_12 <> 0 or
+        ZFFSL_ADDTL_ACTION_CD_13 <> 0 or ZFFSL_ADDTL_ACTION_CD_14 <> 0 or ZFFSL_ADDTL_ACTION_CD_15 <> 0 or
+        ZFFSL_ADDTL_ACTION_CD_16 <> 0 or ZFFSL_ADDTL_ACTION_CD_17 <> 0 or ZFFSL_ADDTL_ACTION_CD_18 <> 0 or
+        ZFFSL_ADDTL_ACTION_CD_19 <> 0 or ZFFSL_ADDTL_ACTION_CD_20 <> 0
+    then 1
+    else 0
+    end  frd_action_ind_efg_logic""
+",EFG_FRD_ACTN_IND
+zffsl_tran_code,Straightmove,FALCON_TRANS_CODE
+zffsl_crdt_bure_scor_nr,Straightmove,CRD_HLDR_CB_SCR
+ZFFSL_DAYS_PI_ACTV_NR,,CRD_ISS_DAYS_TO_AUTH_DT_DAYS_DIFF
+"zffsl_account_number
+zffsl_date_yy
+zffsl_date_mm
+zffsl_date_dd
+zffsl_time_hh
+zffsl_time_mm","lpad(cast(zffsl_date_yy as string) 2 '0') as zffsl_year
+lpad(cast(zffsl_date_mm as string) 2 '0') as zffsl_month
+lpad(cast(zffsl_date_dd as string) 2 '0') as zffsl_day
+lpad(cast(zffsl_time_hh as string) 2 '0') as zffsl_hour
+lpad(cast(zffsl_time_mm as string) 2 '0') as zffsl_minute
+--------------------------------
+concat(A.zffsl_account_number A.zffsl_year A.zffsl_month A.zffsl_day A.zffsl_hour A.zffsl_minute ) as key_trans_id_falcon",DERV_FALCON_TRANS_ID
+ZFFSL_CHD_BIN_NR,Straightmove,CRD_BIN_NUM
+zdaf_zip_country,"CASE WHEN TRIM(zdaf_zip_country) in ('840', '850') THEN 'D' 
+       WHEN TRIM(zdaf_zip_country) NOT IN ('840', '850') AND TRIM(zdaf_zip_country) != '' "" THEN 'F'
+       ELSE NULL
+",DOMSTIC_MRCH_IND
+zdaf_merch_cat,CAST(A.ZDAF_MERCH_CAT AS STRING) AS MERCHANT_CATEGORY,MRCH_IND_CLSFCN_GRP_CODE
+ZFFSL_THRE_DMNS_SECR_IN,case when zffsl_thre_dmns_secr_in is not null then 1 else 0 end as vbyv_indicator,VRFD_BY_VISA_IND
+"pcs_acct_no_1
+","Derivation 1 
+ b.pcs_acct_no_1 as dda_account_number
+
+Derivation 2
+CASE WHEN DATEDIFF( TO_DATE(a.card_open_date), TO_DATE(a.dda_account_open_date_aux)) < 0 AND -4 < DATEDIFF( TO_DATE(a.card_open_date), TO_DATE(a.dda_account_open_date_aux)) THEN cast(A.CARD_OPEN_DATE as string)
+       ELSE cast(a.dda_account_open_date_aux as string)
+       END AS dda_account_open_date
+
+partition by dda_account_number
+
+Derivation 3
+DATEDIFF( TO_DATE(TRANS_DATE_TIME), TO_DATE(dda_account_open_date)) AS ACCOUNT_AGE ",DP_ACCT_AGE
+ZFFSL_ENTRY_MODE_IND,"CASE WHEN ZFFSL_ENTRY_MODE_IND IN ('31','01','10','81') THEN 'CNP' ELSE 'CP' END CNP_CP_ID",DRVD_CRD_PRSNT_IND
+zffsl_card_zip,"SUBSTR(CAST(ZFFSL_CARD_ZIP AS STRING),1,5) AS CUSTOMER_ZIP
+
+-----------------------
+
+CASE WHEN (((CAST(ZFFSL_CARD_ZIP AS INT) BETWEEN 10010 AND 27910) AND MERCHANT_STATE IN ('MA')) OR
+          ((CAST(ZFFSL_CARD_ZIP AS INT) BETWEEN 28010 AND 29200) AND MERCHANT_STATE IN ('RI')) OR
+          ((CAST(ZFFSL_CARD_ZIP AS INT) BETWEEN 30310 AND 38960) AND MERCHANT_STATE IN ('NH')) OR
+          ((CAST(ZFFSL_CARD_ZIP AS INT) BETWEEN 39010 AND 49920) AND MERCHANT_STATE IN ('ME')) OR
+          ((CAST(ZFFSL_CARD_ZIP AS INT) BETWEEN 50010 AND 59070) AND MERCHANT_STATE IN ('VT')) OR
+          ((CAST(ZFFSL_CARD_ZIP AS INT) BETWEEN 60010 AND 69100 AND NOT (CAST(MERCHANT_ZIP AS INT) != 63900)) AND MERCHANT_STATE IN ('CT')) OR
+          ((CAST(ZFFSL_CARD_ZIP AS INT) BETWEEN 70010 AND 89040) AND MERCHANT_STATE IN ('NJ')) OR
+          ((CAST(ZFFSL_CARD_ZIP AS INT) = 63900) AND MERCHANT_STATE IN ('NY')))
+          THEN CONCAT('0', SUBSTR(ZFFSL_CARD_ZIP, 1,4))
+     ELSE ZFFSL_CARD_ZIP",CRD_HLDR_PSTL_CODE
+"PCS_BANK_ID
+pcs_open_date ","Derivation 1
+    CASE
+    WHEN substr(lpad(cast(PCS_BANK_ID as string),6,'0'),1,1) in ('4') THEN concat(lpad(cast(PCS_BANK_ID as string),6,'0'),lpad(cast(PCS_CARD_NO as string),10,'0'))
+    ELSE concat(lpad(cast(PCS_BANK_ID as string),6,'0'),lpad(cast(PCS_CARD_NO as string),12,'0'))
+    END AS card_number
+
+
+Derivation 2
+min (pcs_open_date) as card_open_date
+partition by card_number
+
+Derivation 3
+DATEDIFF( TO_DATE(A.trans_date_time), TO_DATE(b.card_open_date)) AS CARD_AGE",DBT_CRD_AGE
+ZFFSL_TOKN_RQST_ID,"CASE WHEN ZFFSL_TOKN_RQST_ID = '99999999999' THEN 0
+ ELSE WHEN ZFFSL_TOKN_RQST_ID IS NULL THEN 0
+      ELSE 1",MOB_WALLET_TRANS_IND
+ZFFSL_ADDR_VRFC_OTCM_CD,"Derivation 1
+ZFFSL_ADDR_VRFC_OTCM_CD AS ADDRESS_MISMATCH,
+-----------
+Derivation 2
+, CASE
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID = 'CP' AND ADDRESS_MISMATCH = '9' THEN 1
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID = 'CNP' AND ADDRESS_MISMATCH = '9' THEN 2
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID = 'CNP' AND ADDRESS_MISMATCH = '2' THEN 3
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID = 'CNP' AND ADDRESS_MISMATCH = '1' THEN 4
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID = 'CP' AND ADDRESS_MISMATCH = '2' THEN 5
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID IN ('CP', 'CNP') AND ADDRESS_MISMATCH IN ('4', '5', '6', '7', '8') THEN 6
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID IN ('CP', 'CNP') AND ADDRESS_MISMATCH = '3' THEN 7
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID = 'CP' AND ADDRESS_MISMATCH = '1' THEN 8
+       ELSE NULL
+     END AS ADDRESS_MISMATCH_2
+-------------
+Derivation 3
+address_mismatch_2 as address_mismatch",ADDR_MISMTCH_TYP_CODE
+ZFFSL_EXP_DATE_MATCH_FLAG,"Derivation 1
+ZFFSL_EXP_DATE_MATCH_FLAG AS EXPIRATION_MISMATCH,
+-----------
+Derivation 2
+, CASE
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID = 'CNP' AND EXPIRATION_MISMATCH = '9' THEN 1
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID = 'CP' AND EXPIRATION_MISMATCH = '9' THEN 2
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID IN ('CP', 'CNP') AND EXPIRATION_MISMATCH = '3' THEN 3
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID = 'CNP' AND EXPIRATION_MISMATCH = '5' THEN 4
+       WHEN ORIGIN_MASTER = 'SIG TAB' AND CNP_CP_ID = 'CNP' AND EXPIRATION_MISMATCH = '4' THEN 5
+       ELSE NULL
+     END AS EXPIRATION_MISMATCH_2
+-------------
+Derivation 3
+expiration_mismatch_2 as expiration_mismatch",EXPRN_DT_MISMTCH_TYP_CODE
+ZFFSL_FINL_OTCM_CD,"
+case when a.ZFFSL_FINL_OTCM_CD = 'D' then 'D' else 'A' end as APPROVED_DECLINED_ID",TRANS_RSPNS_CODE
+NA,"case when b.ZFFSL_FINL_OTCM_CD != 'D' then 'APPROVE'
+            when b.FRD_ACTION_IND = 0 AND B.ZFFSL_FINL_OTCM_CD = 'D'  then 'NON-DE DECLINE'
+            when (B.ZFFSL_ADDTL_ACTION_CD_1 <> 0 or B.ZFFSL_ADDTL_ACTION_CD_10 <> 0 ) and  B.ZFFSL_FINL_OTCM_CD = 'D' THEN 'DE POLICY DECLINE'
+            when B.FRD_ACTION_IND_EFG_LOGIC = 1 AND B.ZFFSL_FINL_OTCM_CD = 'D' THEN 'DE FRAUD DECLINE'
+            ELSE NULL 
+        END AS AUTH_DECISION",AUTH_DECSN_TYP_CODE
+,", CASE
+        WHEN CNP_CP_ID = 'CNP' and (zffsl_acqr_ntwk_id is null or zffsl_acqr_ntwk_id = 'VCC') and trim(zffsl_pin_tran_cd)='N' and zffsl_tran_type_cd <> 'PA' THEN 'SIG CNP'
+        WHEN CNP_CP_ID = 'CP' and (zffsl_acqr_ntwk_id is null or zffsl_acqr_ntwk_id = 'VCC') and trim(zffsl_pin_tran_cd)='N' and zffsl_tran_type_cd <> 'PA' THEN 'SIG CP POS'
+        WHEN (zffsl_acqr_ntwk_id is null or zffsl_acqr_ntwk_id = 'VCC') and trim(zffsl_pin_tran_cd)='N' and zffsl_tran_type_cd = 'PA' THEN 'SIG PA'
+        WHEN MERCHANT_CATEGORY = '6011' and trim(zffsl_acqr_ntwk_id)='UOU' THEN 'ON-US ATM' 
+        WHEN MERCHANT_CATEGORY = '6011' and trim(zffsl_acqr_ntwk_id)<>'UOU' THEN 'OFF-US ATM' 
+        WHEN trim(zffsl_pin_tran_cd)='Y' and zffsl_acqr_ntwk_id is not null and MERCHANT_CATEGORY != '6011' and zffsl_tran_type_cd <> 'PA' THEN 'PIN POS'
+        WHEN trim(zffsl_pin_tran_cd)='Y' and zffsl_acqr_ntwk_id is not null and MERCHANT_CATEGORY != '6011' and zffsl_tran_type_cd = 'PA' THEN 'PIN PA'
+        wHEN trim(zffsl_pin_tran_cd)='N' and zffsl_acqr_ntwk_id is not null and MERCHANT_CATEGORY != '6011' THEN 'ECOMM PIN'
+        Else 'Other'
+        END TRANSACTION_TYPE",DCFM_DERV_TRANS_TYP_CODE
+ZFFSL_ENTRY_MODE_IND,"SUBSTR(TRIM(FDR_FRAUD_FALCON_DEBIT.ZFFSL_ENTRY_MODE_IND),1,2) AS ENTRY_MOD,",DCFM_DERV_TRANS_ENTRY_TYP_CODE
+"zdaf_crdholder_num_16,zdaf_date_yymmdd,zdaf_time_stamp_hhmmss ","concat ( trim(zdaf_crdholder_num_16),
+ substr( concat('20',cast(zdaf_date_yymmdd as string)),3,2),
+ substr( concat('20',cast(zdaf_date_yymmdd as string)),5,2),
+ substr( concat('20',cast(zdaf_date_yymmdd as string)),7,2),
+ substring(lpad(cast(zdaf_time_stamp_hhmmss as string), 6, '0'), 1, 2), 
+ substring(lpad(cast(zdaf_time_stamp_hhmmss as string), 6, '0'), 3, 2) ) as key_trans_id_auth",DRVD_FDR_AUTH_KEY_TRANS_ID
+"zffsl_account_number
+zffsl_date_yy
+zffsl_date_mm
+zffsl_date_dd
+zffsl_time_hh
+zffsl_time_mm","lpad(cast(zffsl_date_yy as string), 2, '0') as zffsl_year
+, lpad(cast(zffsl_date_mm as string), 2, '0') as zffsl_month
+, lpad(cast(zffsl_date_dd as string), 2, '0') as zffsl_day
+, lpad(cast(zffsl_time_hh as string), 2, '0') as zffsl_hour
+, lpad(cast(zffsl_time_mm as string), 2, '0') as zffsl_minute
+--concat(FDR_FRAUD_FALCON_DEBIT.zffsl_account_number, A.zffsl_year, A.zffsl_month, A.zffsl_day, A.zffsl_hour, A.zffsl_minute ) as key_trans_id_falcon",DRVD_FDR_FALCON_KEY_TRANS_ID
+ZFFSL_CARD_ZIP,"Use the zip value to look up in zip code geo point and populate longitude using below logic:COALESCE(latitude, CAST(substr(geopoint, 1, INSTR(trim(geopoint), ',') - 1) AS DOUBLE)) AS m_zip_latitude",CRD_HLDR_LATITUDE
+"ZFFSL_CARD_ZIP,longitude
+geopoint","Use the zip value to look up in zip code geo point and populate longitude using below logic:COALESCE(longitude, CAST(substr(geopoint, INSTR(trim(geopoint), ',') + 1, length (trim(geopoint)) ) AS DOUBLE)) AS m_zip_longitude",CRD_HLDR_LONGITUDE
+ZFFSL_CHD_ST_CD,Straight move,CRD_HLDR_STATE_NAME
+"primary_customer_key
+cntrct_src_syst_mnmnc
+cntrct_x_party_type
+account_number
+latitude_degrees
+longitude_degrees
+account_latitude_degrees
+account_longitude_degrees
+pstl_code
+zipcode
+geopoint
+latitude
+longitude
+major_city
+state
+common_city_list
+radius_in_miles
+NULLAStimezone
+zipASzipcode
+cityASmajor_city
+timezone","
+Derivation 1
+, CASE WHEN (((CAST(MERCHANT_ZIP AS INT) BETWEEN 10010 AND 27910) AND MERCHANT_STATE IN ('MA')) OR
+          ((CAST(MERCHANT_ZIP AS INT) BETWEEN 28010 AND 29200) AND MERCHANT_STATE IN ('RI')) OR
+          ((CAST(MERCHANT_ZIP AS INT) BETWEEN 30310 AND 38960) AND MERCHANT_STATE IN ('NH')) OR
+          ((CAST(MERCHANT_ZIP AS INT) BETWEEN 39010 AND 49920) AND MERCHANT_STATE IN ('ME')) OR
+          ((CAST(MERCHANT_ZIP AS INT) BETWEEN 50010 AND 59070) AND MERCHANT_STATE IN ('VT')) OR
+          ((CAST(MERCHANT_ZIP AS INT) BETWEEN 60010 AND 69100 AND NOT (CAST(MERCHANT_ZIP AS INT) != 63900)) AND MERCHANT_STATE IN ('CT')) OR
+          ((CAST(MERCHANT_ZIP AS INT) BETWEEN 70010 AND 89040) AND MERCHANT_STATE IN ('NJ')) OR
+          ((CAST(MERCHANT_ZIP AS INT) = 63900) AND MERCHANT_STATE IN ('NY')))
+          THEN CONCAT('0', SUBSTR(MERCHANT_ZIP, 1,4))
+     ELSE MERCHANT_ZIP
+END AS MERCHANT_ZIP_2
+---------------------------------
+Derivation 2
+COALESCE(latitude, CAST(substr(geopoint, 1, INSTR(trim(geopoint), ',') - 1) AS DOUBLE)) AS m_zip_latitude,
+COALESCE(longitude, CAST(substr(geopoint, INSTR(trim(geopoint), ',') + 1, length (trim(geopoint)) ) AS DOUBLE)) AS m_zip_longitude,
+COALESCE(latitude, CAST(substr(geopoint, 1, INSTR(trim(geopoint), ',') - 1) AS DOUBLE)) AS c_zip_latitude,
+COALESCE(longitude, CAST(substr(geopoint, INSTR(trim(geopoint), ',') + 1, length (trim(geopoint)) ) AS DOUBLE)) AS c_zip_longitude,
+CAST(latitude_degrees AS DOUBLE) AS latitude_degrees,
+CAST(longitude_degrees AS DOUBLE) AS longitude_degrees,
+
+Derivation 3
+(2.0 * ASIN(SQRT(((COS(radians(latitude_degrees)) * COS(radians(m_zip_latitude))) * pow(SIN(radians((longitude_degrees - m_zip_longitude) / 2.0)), 2.0)) + pow(SIN(radians((latitude_degrees - m_zip_latitude) / 2.0)), 2.0)))) * 3956.0 AS dist_addr_to_merch,
+     (2.0 * ASIN(SQRT(((COS(radians(c_zip_latitude)) * COS(radians(m_zip_latitude))) * pow(SIN(radians((c_zip_longitude - m_zip_longitude) / 2.0)), 2.0)) + pow(SIN(radians((c_zip_latitude - m_zip_latitude) / 2.0)), 2.0)))) * 3956.0 AS dist_zip_to_merch
+-----------------------
+Derivation 4
+CASE WHEN A.CNP_CP_ID = 'CNP' THEN NULL
+            ELSE B.DIST_ZIP_TO_MERCH
+            END AS DISTANCE_BETWEEN_ZIPS_3
+-----------------------
+Derivation 5
+distance_between_zips_3 as distance_between_zips",DRVD_MRCH_TO_CRD_HLDR_POSTAL_CD_DIST
+zffsl_ems_frad_scor_nr,CASE  WHEN REAL_TIME_SCORING = 'R' THEN FALCON_SCORE  ELSE NULL END AS FALCON_SCORING,TRANS_FINAL_FALCON_SCR
+ICTSTATUS,"WITH 
+SECURITY AS
+(
+select distinct
+SMW1_ACCOUNT_NUMBER
+, SMW4_AUTH_NUMBER
+, cast(SMW4_FRAUD_REPORT_DATE  + 1000000 as string) as SMW4_FRAUD_REPORT_DATE     
+from bdhhd01p_etl_stage.FDR_SECURITY_MASTER_DEBIT
+where LOAD_DATE = (SELECT MAX(LOAD_DATE) from bdhhd01p_etl_stage.FDR_SECURITY_MASTER_DEBIT) AND SMW4_FRAUD_REPORT_DATE <> 0 
+), 
+tmp0 as
+(
+SELECT A.*, B.SMW4_FRAUD_REPORT_DATE
+FROM 
+bdahd01p_dlmap1_map_bsam_fraud_analytics.mrm230013_debit_card_PL64234_AUTH_FALCON_JOIN_5_v202311 AS A
+LEFT JOIN
+SECURITY as B
+on a.ZDAF_CRDHOLDER_NUM_16 = b.smw1_account_number and a.zdaf_auth_num = b.smw4_auth_number
+)
+select *, CASE WHEN PRIORITY_1 IN ( 1, 2 )  OR  PRIORITY_2 IN ( 1, 2) OR  PRIORITY_3 IN ( 1, 2) OR  PRIORITY_4 IN ( 1, 2) OR PRIORITY_5 IN ( 1, 2)   THEN 1 
+               WHEN (PRIORITY_1 = 3 or PRIORITY_4 = 3 OR PRIORITY_5 = 3) AND SIG_PIN_ID = 'SIG' THEN 0
+               WHEN (PRIORITY_2 = 3 OR PRIORITY_3 = 3 OR PRIORITY_5 = 3) AND SIG_PIN_ID = 'PIN' THEN 0
+               WHEN PRIORITY_1 IS NULL AND PRIORITY_4 IS NULL AND PRIORITY_5 IS NULL AND SIG_PIN_ID = 'SIG' AND SMW4_FRAUD_REPORT_DATE IS NOT NULL THEN 1
+               ELSE 0
+               END APPROVED_FRAUD
+from tmp0",DCFM_DERV_TRANS_FRD_IND
