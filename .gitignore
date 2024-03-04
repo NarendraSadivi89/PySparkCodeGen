@@ -2,3 +2,6 @@
 .venv/
 .idea/*
 __pycache__/*
+final_code.txt
+generated_code.txt
+simple_final_code.txt

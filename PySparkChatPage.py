@@ -17,7 +17,7 @@ class PySparkChatPage:
             header
     ):
         load_dotenv()
-        st.title("PySpark Code Generator from STM")
+        st.title("Gen-AI PySpark Code Generator for a given STM")
         st.write("Upload an STM (Excel) and get PySpark code for transformations.")
 
         uploaded_file = st.file_uploader("Choose an STM file", type=["csv"])
