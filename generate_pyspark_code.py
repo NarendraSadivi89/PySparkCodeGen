@@ -63,16 +63,12 @@ Please replace 'source_table' with the actual name of your source table in the H
     return adjusted_code_str
 
 def num_tokens_from_string(string: str, encoding_name: str) -> int:
-    """Returns the number of tokens in a text string."""
     encoding = tiktoken.get_encoding(encoding_name)
     num_tokens = len(encoding.encode(string))
     return num_tokens
 
 def generate_pyspark_code_from_stm(df: pd.DataFrame):
-    """
-    Generates PySpark code for data transformations specified in a DataFrame.
-    """
-    # Construct the prompt for the LLM
+
     prompt = "STM contains 3 fields as Source, Transformation and Target as below. Could you write the pyspark code to apply transformations and write it into the target table and the target database is hive and table name is hive table:\n"
     
     df.columns = df.columns.str.strip()
